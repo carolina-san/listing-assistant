@@ -1,23 +1,23 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { generateListing } from '../api-service';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [FormsModule, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('frontend');
 
-  private description: string = '';
-  private listingTitle: string = '';
-  private tags: string[] = [];
-  private priceRange: string = '';
+  description: string = '';
+  listingTitle: string = '';
+  tags: string[] = [];
+  priceRange: string = '';
 
 
   async onSubmit() {
-    this.description = (document.getElementById('description') as HTMLInputElement).value;
     const response = await generateListing(this.description);
     this.listingTitle = response.title;
     this.tags = response.tags;

@@ -1,10 +1,23 @@
-<body>
-  <div>
-    <h1>Listing Assistant</h1>
-    <form>
-      <label for="description">Description:</label>
-      <textarea id="description" name="description"></textarea>
-      <button type="button" (click)="onSubmit()">Generate Listing</button>
-    </form>
+<div class="flex flex-col justify-start items-center h-screen w-full ">
+  <h1 class="text-5xl mb-6 font-title  text-[#13c1ac] font-bold tracking-wide mt-6">Listing Assistant</h1>
+
+  <div class="h-full w-full items-center justify-center flex flex-col">
+
+
+    <section
+      class="flex w-full max-w-md flex-col items-center justify-center bg-[#3dd2ba] shadow-md py-6 px-16 rounded-lg">
+
+      <form class="flex flex-col items-center justify-center gap-4 ">
+        <label for="description">Describe your item:</label>
+        <input class="w-full  rounded-md p-2" type="text" id="description" name="description" required
+          [(ngModel)]="description" />
+        <button type="button" (click)="onSubmit()" class=" rounded-md p-2 bg-white">Generate Listing</button>
+      </form>
+    </section>
   </div>
-</body>
+  <section *ngIf="listingTitle" class="w-full">
+    <p>Title: {{listingTitle}}</p>
+    <p>Tags: {{tags}}</p>
+    <p>Price Range: {{priceRange}}</p>
+  </section>
+</div>

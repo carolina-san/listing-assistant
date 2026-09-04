@@ -1,13 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const Groq = require('groq-sdk');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.post('/api/generate-listing', async (req, res) => {
     const { description } = req.body;
@@ -17,10 +17,6 @@ app.post('/api/generate-listing', async (req, res) => {
     }
 
     try {
-        const model = genAI.getGenerativeModel({
-            model: 'gemini-3.6-flash',
-            generationConfig: { responseMimeType: "application/json" }
-        });
         const prompt = `
         Item: "${description}"
         Return ONLY JSON:
@@ -31,9 +27,23 @@ app.post('/api/generate-listing', async (req, res) => {
         }
         `;
 
-        const result = await model.generateContent(prompt);
-        const responseText = result.response.text();
+        const completion = await groq.chat.completions.create({
+            messages: [
+                {
+                    role: "system",
+                    content: "You are an assistant that outputs strictly valid JSON."
+                },
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ],
+            model: "openai/gpt-oss-20b",
+            response_format: { type: "json_object" },
+            temperature: 0.2
+        });
 
+        const responseText = completion.choices[0].message.content;
         const aiData = JSON.parse(responseText);
 
         res.json(aiData);

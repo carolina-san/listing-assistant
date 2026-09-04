@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
+import { generateListing } from '../api-service';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
@@ -16,9 +16,13 @@ export class App {
   private priceRange: string = '';
 
 
-  onSubmit() {
+  async onSubmit() {
     this.description = (document.getElementById('description') as HTMLInputElement).value;
-    console.log(this.description);
+    const response = await generateListing(this.description);
+    this.listingTitle = response.title;
+    this.tags = response.tags;
+    this.priceRange = response.priceRange;
+    console.log(this.listingTitle, this.tags, this.priceRange);
   }
 }
 

@@ -9,4 +9,16 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('frontend');
+
+  private description: string = '';
+  private listingTitle: string = '';
+  private tags: string[] = [];
+  private priceRange: string = '';
+
+
+  onSubmit() {
+    this.description = (document.getElementById('description') as HTMLInputElement).value;
+    console.log(this.description);
+  }
 }
+

@@ -1,0 +1,31 @@
+.card {
+    @apply relative bg-white rounded-2xl p-4 shadow-xl shadow-slate-200/40 border border-slate-100 flex flex-row justify-between hover:border-[#13c1ac]/40 transition-colors;
+}
+
+.card-title {
+    @apply flex gap-2 m-1 font-bold text-slate-500 uppercase tracking-wide mb-3;
+}
+
+.copy-btn {
+    @apply relative rounded-full p-1 hover:bg-[#13c1ac]/10 text-slate-400/80 hover:text-[#13c1ac] transition-colors;
+}
+
+.info-section {
+    @apply h-full w-full flex flex-col justify-between;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.7s ease-out forwards;
+}

@@ -3,7 +3,7 @@
 }
 
 .card-title {
-    @apply flex gap-2 m-1 font-bold text-slate-500 uppercase tracking-wide mb-3;
+    @apply flex gap-2 m-1 font-bold text-slate-500 uppercase tracking-wide mb-3 items-center;
 }
 
 .copy-btn {

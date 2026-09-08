@@ -48,7 +48,7 @@ export class App {
       if (this.copyTimeout) clearTimeout(this.copyTimeout);
       this.copyTimeout = setTimeout(() => {
         this.copiedType = null;
-      }, 2000);
+      }, 500);
     } catch (err) {
       console.error('Failed to copy!', err);
     }

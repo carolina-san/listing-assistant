@@ -19,6 +19,7 @@ app.post('/api/generate-listing', async (req, res) => {
     try {
         const prompt = `
         Item: "${description}"
+        You are an expert on selling online and marketing.
         Return ONLY JSON:
         {
         "title": "short attractive SEO title",

@@ -1,7 +1,7 @@
 <div class="flex flex-col justify-start items-center min-h-screen w-full bg-slate-50 font-text p-6 md:p-12">
 
   <div class="w-full flex flex-col items-center transition-all duration-700 ease-in-out"
-    [ngClass]="(listingTitle || isLoading) ? 'mt-7 mb-12' : 'mt-[25vh] mb-0'">
+    [ngClass]="(listingTitle || isLoading) ? 'mt-9 mb-12' : 'mt-[25vh] mb-0'">
     <h1 class="text-5xl md:text-6xl font-title text-[#13c1ac] font-bold  mb-12 md:mb-16">Listing Assistant
     </h1>
 
@@ -24,7 +24,7 @@
   </div>
 
   <!-- Spinner -->
-  <div *ngIf="isLoading" class="w-full flex flex-col items-center justify-center mt-12 animate-fade-in-up">
+  <div *ngIf="isLoading" class="w-full flex flex-col items-center justify-center mt-12 ">
     <svg class="animate-spin h-10 w-10 text-[#13c1ac] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none"
       viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
@@ -45,12 +45,13 @@
           Listing Title</h3>
         <p class="text-2xl m-1 font-semibold text-[#13c1ac]">{{listingTitle}}</p>
       </div>
-      <div class="flex items-end">
-        <button (click)="copyToClipboard(listingTitle, 'title')" class="copy-btn"
-          [title]="copiedType === 'title' ? 'Copied!' : 'Copy'">
+      <div class="flex flex-col items-center justify-end relative">
+        <button (click)="copyToClipboard(listingTitle, 'title')" class="copy-btn" title="Copy">
 
           <svg lucideCopy class="w-5 h-5"></svg>
         </button>
+        <span class="absolute -bottom-4 text-[10px] text-[#13c1ac] font-semibold transition-opacity duration-300"
+          [class.opacity-100]="copiedType === 'title'" [class.opacity-0]="copiedType !== 'title'">Copied!</span>
       </div>
 
     </div>
@@ -71,11 +72,12 @@
         </div>
       </div>
 
-      <div class="flex items-end">
-        <button (click)="copyToClipboard(tags.join(', '), 'tags')" class="copy-btn"
-          [title]="copiedType === 'tags' ? 'Copied!' : 'Copy'">
+      <div class="flex flex-col items-center justify-end relative">
+        <button (click)="copyToClipboard(tags.join(', '), 'tags')" class="copy-btn" title="Copy">
           <svg lucideCopy class="w-5 h-5"></svg>
         </button>
+        <span class="absolute -bottom-4 text-[10px] text-[#13c1ac] font-semibold transition-opacity duration-300"
+          [class.opacity-100]="copiedType === 'tags'" [class.opacity-0]="copiedType !== 'tags'">Copied!</span>
       </div>
     </div>
 
@@ -89,11 +91,12 @@
         <p class="text-4xl font-bold text-[#13c1ac] m-1">{{priceRange}}</p>
       </div>
 
-      <div class="flex items-end">
-        <button (click)="copyToClipboard(priceRange, 'price')" class="copy-btn"
-          [title]="copiedType === 'price' ? 'Copied!' : 'Copy'">
+      <div class="flex flex-col items-center justify-end relative">
+        <button (click)="copyToClipboard(priceRange, 'price')" class="copy-btn" title="Copy">
           <svg lucideCopy class="w-5 h-5"></svg>
         </button>
+        <span class="absolute -bottom-4 text-[10px] text-[#13c1ac] font-semibold transition-opacity duration-200"
+          [class.opacity-100]="copiedType === 'price'" [class.opacity-0]="copiedType !== 'price'">Copied!</span>
       </div>
     </div>
 

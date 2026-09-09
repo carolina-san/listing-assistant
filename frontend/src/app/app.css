@@ -1,5 +1,5 @@
 .card {
-    @apply relative bg-white rounded-2xl p-4 shadow-xl shadow-slate-200/40 border border-slate-100 flex flex-row justify-between hover:border-[#13c1ac]/40 transition-colors;
+    @apply relative bg-white rounded-2xl p-4 shadow-xl shadow-slate-200/40 border border-slate-100 flex flex-row justify-between hover:border-greenPrimary/40 transition-colors;
 }
 
 .card-title {
@@ -7,11 +7,23 @@
 }
 
 .copy-btn {
-    @apply relative rounded-full p-1 hover:bg-[#13c1ac]/10 text-slate-400/80 hover:text-[#13c1ac] transition-colors;
+    @apply relative rounded-full p-1 hover:bg-greenPrimary/10 text-slate-400/80 hover:text-greenPrimary transition-colors;
+}
+
+.copy-msg {
+    @apply absolute -bottom-4 text-[10px] text-greenPrimary font-semibold transition-opacity duration-200;
+}
+
+.tag {
+    @apply px-2.5 py-1 text-sm font-semibold bg-greenPrimary/10 text-greenDark border border-greenPrimary/20 rounded-full;
 }
 
 .info-section {
     @apply h-full w-full flex flex-col justify-between;
+}
+
+.results-section {
+    @apply w-full max-w-6xl animate-fade-in-up grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8;
 }
 
 @keyframes fadeInUp {

@@ -16,6 +16,20 @@ app.post('/api/generate-listing', async (req, res) => {
         return res.status(400).json({ error: 'Description is required.' });
     }
 
+    if (process.env.MOCK_MODE === 'true') {
+        console.log('MOCK_MODE enabled: Returning mock response.');
+
+        if (Math.random() < 0.2) {
+            res.status(500).json({ error: 'Internal error generating article data.' });
+        }
+
+        return res.json({
+            title: `[MOCK] ${description}`,
+            tags: ["mock tag", "example", "test"],
+            priceRange: "10€-25€"
+        });
+    }
+
     try {
         const prompt = `
         Item: "${description}"

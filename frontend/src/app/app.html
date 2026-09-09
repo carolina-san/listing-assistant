@@ -1,20 +1,19 @@
 <div class="flex flex-col justify-start items-center min-h-screen w-full bg-slate-50 font-text p-6 md:p-12">
 
   <div class="w-full flex flex-col items-center transition-all duration-700 ease-in-out"
-    [ngClass]="(listingTitle || isLoading) ? 'mt-9 mb-12' : 'mt-[25vh] mb-0'">
-    <h1 class="text-5xl md:text-6xl font-title text-[#13c1ac] font-bold  mb-12 md:mb-16">Listing Assistant
+    [ngClass]="(listingTitle || isLoading || hasError) ? 'mt-9 mb-12' : 'mt-[25vh] mb-0'">
+    <h1 class="text-5xl md:text-6xl font-title text-greenPrimary font-bold  mb-12 md:mb-16">Listing Assistant
     </h1>
 
     <div class="w-full max-w-5xl flex flex-col items-center ">
       <form ngNativeValidate (ngSubmit)="onSubmit()" class="w-full relative flex items-center justify-between 
-        border-b-2 border-slate-200 focus-within:border-[#13c1ac] transition-all">
+        border-b-2 border-slate-200 focus-within:border-greenPrimary transition-all">
 
-        <input class="w-full bg-transparent text-xl md:text-2xl py-3 outline-none placeholder-slate-300 text-slate-700"
-          type="text" id="description" name="description" required [(ngModel)]="description"
-          placeholder="Describe your item..." />
+        <input class="w-full bg-transparent text-xl md:text-2xl py-3 outline-none text-slate-700" type="text"
+          id="description" name="description" required [(ngModel)]="description" placeholder="Describe your item..." />
 
         <button type="submit"
-          class="px-3 py-1.5 text-sm font-semibold bg-[#13c1ac]/10 text-[#0f9f8e] border border-[#13c1ac]/40 rounded-full transition-colors hover:bg-[#13c1ac]/20">
+          class="px-3 py-1.5 bg-greenPrimary/10 text-greenDark border border-greenDark/40 rounded-full transition-colors hover:bg-greenDark/20">
           <svg lucideSearch class="w-5 h-5"></svg>
         </button>
 
@@ -25,33 +24,37 @@
 
   <!-- Spinner -->
   <div *ngIf="isLoading" class="w-full flex flex-col items-center justify-center mt-12 ">
-    <svg class="animate-spin h-10 w-10 text-[#13c1ac] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+    <svg class="animate-spin h-10 w-10 text-greenPrimary mb-4" xmlns="http://www.w3.org/2000/svg" fill="none"
       viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
-      <path class="opacity-75" fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 
+        5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
       </path>
     </svg>
   </div>
 
+  <!-- Error Message -->
+  <p *ngIf="hasError && !isLoading" class="animate-fade-in-up text-red-500 text-xl text-center">
+    Something went wrong, the AI could not process this request
+  </p>
+
   <!-- Results -->
-  <section *ngIf="listingTitle && !isLoading"
-    class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 animate-fade-in-up">
+  <section *ngIf="listingTitle && !hasError && !isLoading" class="results-section">
 
     <!-- Card: Title -->
     <div class="card">
       <div class="info-section">
         <h3 class="card-title"> <svg lucidePencilSparkles class="w-5 h-5"></svg>
           Listing Title</h3>
-        <p class="text-2xl m-1 font-semibold text-[#13c1ac]">{{listingTitle}}</p>
+        <p class="text-2xl m-1 font-semibold text-greenPrimary">{{listingTitle}}</p>
       </div>
       <div class="flex flex-col items-center justify-end relative">
         <button (click)="copyToClipboard(listingTitle, 'title')" class="copy-btn" title="Copy">
 
           <svg lucideCopy class="w-5 h-5"></svg>
         </button>
-        <span class="absolute -bottom-4 text-[10px] text-[#13c1ac] font-semibold transition-opacity duration-300"
-          [class.opacity-100]="copiedType === 'title'" [class.opacity-0]="copiedType !== 'title'">Copied!</span>
+        <span class="copy-msg" [class.opacity-100]="copiedType === 'title'"
+          [class.opacity-0]="copiedType !== 'title'">Copied!</span>
       </div>
 
     </div>
@@ -64,8 +67,7 @@
           Tags</h3>
 
         <div class="flex flex-wrap pt-2 gap-2 m-1">
-          <span *ngFor="let tag of tags"
-            class="px-2.5 py-1 text-sm font-semibold bg-[#13c1ac]/10 text-[#0f9f8e] border border-[#13c1ac]/20 rounded-full">
+          <span *ngFor="let tag of tags" class="tag">
             {{tag}}
           </span>
           <span *ngIf="!tags || tags.length === 0" class="text-slate-400 text-sm">No tags available</span>
@@ -76,8 +78,8 @@
         <button (click)="copyToClipboard(tags.join(', '), 'tags')" class="copy-btn" title="Copy">
           <svg lucideCopy class="w-5 h-5"></svg>
         </button>
-        <span class="absolute -bottom-4 text-[10px] text-[#13c1ac] font-semibold transition-opacity duration-300"
-          [class.opacity-100]="copiedType === 'tags'" [class.opacity-0]="copiedType !== 'tags'">Copied!</span>
+        <span class="copy-msg" [class.opacity-100]="copiedType === 'tags'"
+          [class.opacity-0]="copiedType !== 'tags'">Copied!</span>
       </div>
     </div>
 
@@ -88,15 +90,15 @@
         <h3 class="card-title">
           <svg lucideCircleDollarSign class="w-5 h-5"></svg>Price Range
         </h3>
-        <p class="text-4xl font-bold text-[#13c1ac] m-1">{{priceRange}}</p>
+        <p class="text-4xl font-bold text-greenPrimary m-1">{{priceRange}}</p>
       </div>
 
       <div class="flex flex-col items-center justify-end relative">
         <button (click)="copyToClipboard(priceRange, 'price')" class="copy-btn" title="Copy">
           <svg lucideCopy class="w-5 h-5"></svg>
         </button>
-        <span class="absolute -bottom-4 text-[10px] text-[#13c1ac] font-semibold transition-opacity duration-200"
-          [class.opacity-100]="copiedType === 'price'" [class.opacity-0]="copiedType !== 'price'">Copied!</span>
+        <span class="copy-msg" [class.opacity-100]="copiedType === 'price'"
+          [class.opacity-0]="copiedType !== 'price'">Copied!</span>
       </div>
     </div>
 

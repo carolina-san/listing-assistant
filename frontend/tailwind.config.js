@@ -9,6 +9,10 @@ module.exports = {
         text: ['Inter', 'sans-serif'],
         title: ['"Valley Sans"', 'sans-serif'],
       },
+      colors: {
+        greenPrimary: '#13c1ac',
+        greenDark: '#0f9f8e',
+      }
     },
   },
   plugins: [],

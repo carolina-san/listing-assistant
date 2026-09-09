@@ -19,6 +19,7 @@ export class App {
   priceRange: string = '';
 
   isLoading: boolean = false;
+  hasError: boolean = false;
   copiedType: string | null = null;
   copyTimeout: any;
 
@@ -27,15 +28,24 @@ export class App {
 
     this.isLoading = true;
     this.listingTitle = '';
+    this.hasError = false;
 
     try {
       const response = await generateListing(this.description);
+      
+      if (!response || !response.title || !response.priceRange || !Array.isArray(response.tags)) {
+        this.hasError = true;
+        return;
+      }
+      
       this.listingTitle = response.title;
       this.tags = response.tags;
       this.priceRange = response.priceRange;
-      console.log(this.listingTitle, this.tags, this.priceRange);
+
+      console.log('Processed response:', this.listingTitle, this.tags, this.priceRange);
     } catch (err) {
       console.error('Error fetching listing:', err);
+      this.hasError = true;
     } finally {
       this.isLoading = false;
     }

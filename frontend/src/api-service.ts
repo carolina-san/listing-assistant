@@ -1,4 +1,4 @@
-const API_URL = '/api/generate-listing';
+const API_URL = 'http://localhost:3000/api/generate-listing';
 
 export const generateListing = async (description: string) => {
     try {

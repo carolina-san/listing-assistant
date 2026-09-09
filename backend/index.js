@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const isMockMode = process.env.MOCK_MODE === 'true' || !process.env.GROQ_API_KEY;
 
 app.post('/api/generate-listing', async (req, res) => {
     const { description } = req.body;
@@ -16,7 +16,7 @@ app.post('/api/generate-listing', async (req, res) => {
         return res.status(400).json({ error: 'Description is required.' });
     }
 
-    if (process.env.MOCK_MODE === 'true') {
+    if (isMockMode) {
         console.log('MOCK_MODE enabled: Returning mock response.');
 
         if (Math.random() < 0.2) {
@@ -31,6 +31,7 @@ app.post('/api/generate-listing', async (req, res) => {
     }
 
     try {
+        const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
         const prompt = `
         Item: "${description}"
         Return ONLY JSON:

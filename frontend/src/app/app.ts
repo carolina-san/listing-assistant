@@ -26,7 +26,7 @@ export class App {
     if (!this.description.trim()) return;
 
     this.isLoading = true;
-    this.listingTitle = ''; // Hide previous results while loading
+    this.listingTitle = '';
 
     try {
       const response = await generateListing(this.description);

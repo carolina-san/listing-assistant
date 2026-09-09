@@ -3,7 +3,7 @@
 ## 1. AI Assistants 
 
 - ChatGPT: For quick questions about the project creation and some styles.
-- Gemini: For more complex questions, help with implementation and code suggestions.
+- Gemini: For more complex questions, help with implementation and testing.
 
 
 ## 2. Useful prompts
@@ -48,6 +48,8 @@ const completion = await groq.chat.completions.create({
 });
 ```
 I understand that is how you send the prompt to the AI model but I don't fully understand why there are 2 messages in the array instead of just the prompt nor how does the role tag work.
+
+I also don't understand part of the code for the tests in either frontend or backend because I have never developed such tests for applications before, so I left some AI comments to help me understand it better.
 
 ## 5. Further improvements
 

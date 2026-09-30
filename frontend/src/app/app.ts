@@ -17,7 +17,7 @@ export class App {
   listingTitle: string = '';
   tags: string[] = [];
   priceRange: string = '';
-
+  language: string = 'English';
   isLoading: boolean = false;
   hasError: boolean = false;
   copiedType: string | null = null;
@@ -31,13 +31,13 @@ export class App {
     this.hasError = false;
 
     try {
-      const response = await generateListing(this.description);
-      
+      const response = await generateListing(this.description, this.language);
+
       if (!response || !response.title || !response.priceRange || !Array.isArray(response.tags)) {
         this.hasError = true;
         return;
       }
-      
+
       this.listingTitle = response.title;
       this.tags = response.tags;
       this.priceRange = response.priceRange;

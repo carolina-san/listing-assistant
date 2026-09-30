@@ -8,7 +8,17 @@
     <div class="w-full max-w-5xl flex flex-col items-center ">
       <form ngNativeValidate (ngSubmit)="onSubmit()" class="w-full relative flex items-center justify-between 
         border-b-2 border-slate-200 focus-within:border-greenPrimary transition-all">
-
+        <select id="language" name="language" [(ngModel)]="language">
+          <option value="English">
+            English
+          </option>
+          <option value="Spanish">
+            Spanish
+          </option>
+          <option value="Catalan">
+            Catalan
+          </option>
+        </select>
         <input class="w-full bg-transparent text-xl md:text-2xl py-3 outline-none text-slate-700" type="text"
           id="description" name="description" required [(ngModel)]="description" placeholder="Describe your item..." />
 

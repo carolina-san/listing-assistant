@@ -10,7 +10,7 @@ app.use(express.json());
 const isMockMode = process.env.MOCK_MODE === 'true' || !process.env.GROQ_API_KEY;
 
 app.post('/api/generate-listing', async (req, res) => {
-    const { description } = req.body;
+    const { description, language } = req.body;
 
     if (!description) {
         return res.status(400).json({ error: 'Description is required.' });
@@ -20,7 +20,7 @@ app.post('/api/generate-listing', async (req, res) => {
         console.log('MOCK_MODE enabled: Returning mock response.');
 
         if (Math.random() < 0.2) {
-            res.status(500).json({ error: 'Internal error generating article data.' });
+            return res.status(500).json({ error: 'Internal error generating article data.' });
         }
 
         return res.json({
@@ -34,19 +34,20 @@ app.post('/api/generate-listing', async (req, res) => {
         const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
         const prompt = `
         Item: "${description}"
-        Return ONLY JSON:
+        Return ONLY JSON in this language ${language}:
         {
         "title": "short attractive SEO title",
         "tags": ["3-5 search tags", "max 2 words each"],
         "priceRange": "estimated EUR range (e.g. 20€-35€)"
         }
         `;
+        console.log(language);
 
         const completion = await groq.chat.completions.create({
             messages: [
                 {
                     role: "system",
-                    content: "You are an assistant that outputs strictly valid JSON."
+                    content: `You are an assistant that outputs strictly valid JSON in this language: ${language}`
                 },
                 {
                     role: "user",
@@ -59,8 +60,10 @@ app.post('/api/generate-listing', async (req, res) => {
         });
 
         const responseText = completion.choices[0].message.content;
-        const aiData = JSON.parse(responseText);
-
+        let aiData = JSON.parse(responseText);
+        if (aiData.tags.length > 3) {
+            aiData.tags = aiData.tags.slice(0, 3);
+        }
         res.json(aiData);
 
     } catch (error) {

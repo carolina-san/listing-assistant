@@ -1,13 +1,13 @@
 const API_URL = 'http://localhost:3000/api/generate-listing';
 
-export const generateListing = async (description: string) => {
+export const generateListing = async (description: string, language: string) => {
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ description }),
+            body: JSON.stringify({ description, language }),
         });
 
         if (!response.ok) {
